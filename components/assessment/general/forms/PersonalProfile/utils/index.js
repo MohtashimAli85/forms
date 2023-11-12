@@ -26,7 +26,7 @@ export const formSchema = z
     },
     {
       path: ['number_of_children'],
-      message: 'Number of children is required when children are under 22.'
+      message: 'Number of children is required.'
     }
   );
 

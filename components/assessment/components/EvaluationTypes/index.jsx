@@ -24,7 +24,6 @@ const evalutionTypes = [
 const EvaluationSteps = () => {
   const pathname = usePathname();
   const currentValue = pathname.split('/')[2];
-  console.log({ currentValue });
   return (
     <ul className='flex gap-3 py-4 my-4'>
       {evalutionTypes.map(({ name, value }) => (

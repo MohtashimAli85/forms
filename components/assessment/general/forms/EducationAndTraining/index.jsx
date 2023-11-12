@@ -10,64 +10,72 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input'; // Assumed imports
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { formFields, formSchema } from './utils';
-const Selectors = {};
-const Selector = ({ name, field, label }) => {
-  const Select = Selectors[name];
-  if (Select)
-    return (
-      <>
-        <Select field={field} label={label} />
-      </>
-    );
-  return <></>;
-};
-export default function EducationAndTraining({ nextStep }) {
+import { useForm, useWatch } from 'react-hook-form';
+import { formFields, formSchema, postSchema, subFields } from './utils';
+import SubFields from './SubFields';
+
+export default function EducationAndTraining({ nextStep, data, updateForm }) {
+  const { control, getValues, handleSubmit } = useForm({
+    defaultValues: {
+      post_secondary_education:
+        data.education_training?.post_secondary_education
+    },
+    resolver: zodResolver(postSchema)
+  });
+  console.log({ error: control._formState.errors });
+  const value = useWatch({ control, name: 'post_secondary_education' });
+  console.log({ value });
   const form = useForm({
+    defaultValues: data.education_training,
     resolver: zodResolver(formSchema)
   });
 
   const onSubmit = (data) => {
-    console.log(data);
     nextStep();
+    updateForm(data, 'education_training');
   };
 
   // Define the form fields to map over them
-
+  console.log({
+    pew: form.getValues(),
+    errors: form.control._formState.errors
+  });
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className='space-y-3 lg:space-y-0 lg:grid  lg:grid-cols-3 gap-3 '
+        onSubmit={value ? form.handleSubmit(onSubmit) : handleSubmit(onSubmit)}
+        className='space-y-3 '
       >
         {formFields.map(({ name, label, type }) => (
           <FormField
             key={name}
-            control={form.control}
+            control={control}
             name={name}
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  {type === 'select' ? (
-                    <Selector name={name} field={field} label={label} />
-                  ) : type === 'radio' ? (
+                  <>
                     <>
                       <YesNoRadio field={field} label={label} />
                     </>
-                  ) : (
-                    <>
-                      <FormLabel>{label}</FormLabel>
-
-                      <Input type={type} {...field} />
-                    </>
-                  )}
+                    <FormMessage />
+                  </>
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
         ))}
+        {/* <FormField
+          name='programs_list'
+          control
+          render={(field) => {
+            return (
+              <>
+              </>
+            );
+          }}
+        ></FormField> */}
+        {value && <SubFields form={form} value={value} />}
         <div className='col-span-2 grid place-content-end'>
           <Button type='submit'>Next Step</Button>
         </div>

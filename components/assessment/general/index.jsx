@@ -22,6 +22,20 @@ const General = () => {
       marital_status: 'married_commonlaw',
       children_under_22: false,
       current_country: 'PK'
+    },
+    education_training: {
+      studied_in_canada: undefined,
+      institute_name: '',
+      highest_study_canada: '',
+      programs_list: [
+        {
+          program_type: '',
+          field: '',
+          location: '',
+          school_in_canada: '',
+          program_completed: null
+        }
+      ]
     }
   });
   const [activeAccordion, setActiveAccordion] = useState(

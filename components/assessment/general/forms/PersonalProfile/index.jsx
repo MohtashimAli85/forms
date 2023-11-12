@@ -41,7 +41,6 @@ function ProfileForm({ nextStep, data, updateForm }) {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
     updateForm(data, 'personal_profile');
     nextStep();
   };

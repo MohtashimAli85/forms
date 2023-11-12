@@ -6,6 +6,7 @@ const AssessmentLayout = ({ children }) => {
     <>
       <h1 className='text-3xl'>Choose your evaluation form</h1>
       <EvaluationSteps />
+
       {children}
     </>
   );
