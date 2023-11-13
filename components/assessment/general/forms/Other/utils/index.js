@@ -17,7 +17,7 @@ export const formSchema = z.object({
   bad_medical_condition: z.boolean(),
   currency: z.string().min(1, { message: 'This field is required.' }),
   amount: z.string().min(1, { message: 'This field is required.' }),
-  comments: z.string()
+  comments: z.string().optional()
 });
 
 export const formFields = [

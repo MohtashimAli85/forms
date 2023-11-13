@@ -1,10 +1,11 @@
 import React from 'react';
 import { Button } from '../button';
 import Loader from '../loader';
+import clsx from 'clsx';
 
-const SubmitBtn = ({ isLoading }) => {
+const SubmitBtn = ({ isLoading, className }) => {
   return (
-    <Button type='submit' className='gap-2   min-w-[100px]'>
+    <Button type='submit' className={clsx('gap-2   min-w-[100px]', className)}>
       {!isLoading ? 'Submit' : <Loader />}
     </Button>
   );

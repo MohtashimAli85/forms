@@ -4,9 +4,8 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/assessment/general',
-        permanent: true,
-        basePath: false
+        destination: '/auth/login',
+        permanent: true
       }
     ];
   }
