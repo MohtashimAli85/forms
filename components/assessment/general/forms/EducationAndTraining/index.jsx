@@ -16,13 +16,14 @@ import SubFields from './SubFields';
 
 export default function EducationAndTraining({ nextStep, data, updateForm }) {
   console.log({ default: data });
-  const { control, getValues, handleSubmit } = useForm({
+  const mainForm = useForm({
     defaultValues: {
       post_secondary_education:
         data.education_training?.post_secondary_education
     },
     resolver: zodResolver(postSchema)
   });
+  const { control, getValues, handleSubmit } = mainForm;
   console.log({ error: control._formState.errors });
   const post_secondary_education = useWatch({
     control,
@@ -34,7 +35,7 @@ export default function EducationAndTraining({ nextStep, data, updateForm }) {
   });
 
   const onSubmit = (data) => {
-    // nextStep();
+    nextStep();
     console.log({ data });
     updateForm({ post_secondary_education, ...data }, 'education_training');
   };
@@ -42,10 +43,12 @@ export default function EducationAndTraining({ nextStep, data, updateForm }) {
   // Define the form fields to map over them
   console.log({
     pew: form.getValues(),
-    errors: form.control._formState.errors
+    errors: form.control._formState.errors,
+    mainError: control._formState.errors
   });
+  const finalForm = post_secondary_education ? form : mainForm;
   return (
-    <Form {...form}>
+    <Form {...finalForm}>
       <form
         onSubmit={
           post_secondary_education
