@@ -23,25 +23,7 @@ const Student = () => {
       children_under_22: false,
       current_country: 'PK'
     },
-    education_training: {
-      post_secondary_education: false,
-      studied_in_canada: undefined,
-      institute_name: '',
-      highest_study_canada: '',
-      programs_list: [
-        {
-          program_type: '',
-          field: '',
-          location: '',
-          school_in_canada: '',
-          program_completed: null
-        }
-      ]
-    },
-    work_experience: {
-      paid_work_experience: false,
-      work_experiences: [{}]
-    },
+
     canadian_Language_proficiency: {
       first_language: 'English',
       first_language_read: 'beginner',

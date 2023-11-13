@@ -24,7 +24,6 @@ function EducationPrograms({ nextStep, data, updateForm }) {
     updateForm(data.programs, 'programs');
     nextStep();
   };
-  console.log({ errors: form.control._formState.errors, form });
   const error = form.control._formState.errors.programs?.root?.message;
   // Define the form fields to map over them
 
@@ -46,7 +45,6 @@ function EducationPrograms({ nextStep, data, updateForm }) {
                 control={form.control}
                 name={name}
                 render={({ field }) => {
-                  console.log({ field });
                   return (
                     <FormItem>
                       <FormControl>

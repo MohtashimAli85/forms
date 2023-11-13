@@ -25,7 +25,6 @@ export const formSchema = z
   .refine(
     (data) => {
       const selectedPrograms = Object.values(data.programs).filter(Boolean);
-      console.log({ selectedPrograms, data });
       return selectedPrograms.length === 3;
     },
     {

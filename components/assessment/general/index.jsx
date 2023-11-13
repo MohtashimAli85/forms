@@ -82,14 +82,12 @@ const General = () => {
   const closeActiveAccordions = useCallback((index) => {
     setActiveAccordion((prev) => {
       const temp = [...prev];
-      console.log({ temp });
       return temp.map((value, i) => (i === index ? value : false));
     });
   });
   const updateForm = useCallback((data, key) => {
     setFormData((prev) => ({ ...prev, [key]: data }));
   }, []);
-  console.log({ formData });
   return (
     <>
       <Accordion type='single' className={''} collapsible value={'true'}>

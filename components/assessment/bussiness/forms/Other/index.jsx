@@ -14,16 +14,27 @@ import { useForm } from 'react-hook-form';
 import { formFields, formSchema } from './utils';
 import YesNoRadio from '@/components/ui/Radios/YesNoRadio';
 import { Textarea } from '@/components/ui/textarea';
+import useSubmitForm from '@/hooks/useSubmitForm';
+import SubmitBtn from '@/components/ui/SubmitBtn';
 
 function Other({ nextStep, data, updateForm }) {
+  const url = '/business_immigration';
+  const { mutate, isPending } = useSubmitForm(url);
   const form = useForm({
     defaultValues: data.other,
     resolver: zodResolver(formSchema)
   });
 
-  const onSubmit = (data) => {
-    updateForm(data, 'other');
-    nextStep();
+  const onSubmit = (other) => {
+    const payload = {
+      ...data.personal_profile,
+      ...data.personal_net_worth,
+      ...data.management_experience,
+      ...other
+    };
+    console.log(payload);
+    mutate(payload);
+    updateForm(other, 'other');
   };
   return (
     <>
@@ -63,7 +74,7 @@ function Other({ nextStep, data, updateForm }) {
             )}
           />
           <div className='col-span-2 lg:col-span-3 grid place-content-end'>
-            <Button type='submit'>Next Step</Button>
+            <SubmitBtn isLoading={isPending} />
           </div>
         </form>
       </Form>

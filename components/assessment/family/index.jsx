@@ -24,18 +24,6 @@ const Family = () => {
       children_under_22: false,
       current_country: 'PK'
     },
-    others: {
-      skills_outside_canada: '1 or 2 years',
-      skills_inside_canada: '1 year',
-      certificate_qualification: true,
-      certificate_nomination: true,
-      valid_job: true,
-      senior_managerial_role: true,
-      siblings: true,
-      relative_in_canada: true,
-      criminal_record: true,
-      bad_medical_condition: true
-    },
     relative_information: {
       relative_name: 'p',
       relation_with_relative: 'spouse',

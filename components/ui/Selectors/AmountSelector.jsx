@@ -14,7 +14,6 @@ const AmountSelector = ({ field, label, watch }) => {
   const { data, isLoading, isError } = useCountry();
   const currency = useWatch({ name: watch });
   const list = data?.find((item) => item.currency == currency)?.amounts || [];
-  console.log({ currency, list });
   return (
     <>
       <FormLabel>{label}</FormLabel>

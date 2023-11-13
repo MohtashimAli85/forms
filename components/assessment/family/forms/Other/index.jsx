@@ -12,16 +12,26 @@ import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { formFields, formSchema } from './utils';
+import useSubmitForm from '@/hooks/useSubmitForm';
+import SubmitBtn from '@/components/ui/SubmitBtn';
 
 function Other({ nextStep, data, updateForm }) {
+  const url = '/family_sponsorship';
+  const { mutate, isPending } = useSubmitForm(url);
   const form = useForm({
     defaultValues: data.other,
     resolver: zodResolver(formSchema)
   });
 
-  const onSubmit = (data) => {
-    updateForm(data, 'other');
-    nextStep();
+  const onSubmit = (others) => {
+    const payload = {
+      ...data.personal_profile,
+      ...data.relative_information,
+      others
+    };
+    console.log(payload);
+    mutate(payload);
+    updateForm(others, 'other');
   };
   return (
     <>
@@ -57,7 +67,7 @@ function Other({ nextStep, data, updateForm }) {
             )}
           />
           <div className='col-span-2 lg:col-span-3 grid place-content-end'>
-            <Button type='submit'>Next Step</Button>
+            <SubmitBtn isLoading={isPending} />
           </div>
         </form>
       </Form>

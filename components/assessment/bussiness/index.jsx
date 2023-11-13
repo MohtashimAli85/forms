@@ -40,7 +40,6 @@ const Business = () => {
   const closeActiveAccordions = useCallback((index) => {
     setActiveAccordion((prev) => {
       const temp = [...prev];
-      console.log({ temp });
       return temp.map((value, i) => (i === index ? value : false));
     });
   });

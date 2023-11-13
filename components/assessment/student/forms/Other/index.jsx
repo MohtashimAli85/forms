@@ -1,5 +1,6 @@
 // import CountrySelect from '@/components/ui/Selectors/CountrySelect';
 import YesNoRadio from '@/components/ui/Radios/YesNoRadio';
+import SubmitBtn from '@/components/ui/SubmitBtn';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -12,16 +13,25 @@ import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { formFields, formSchema } from './utils';
+import useSubmitForm from '@/hooks/useSubmitForm';
 
 function Other({ nextStep, data, updateForm }) {
+  const url = '/study_visa';
+  const { mutate, isPending } = useSubmitForm(url);
   const form = useForm({
     defaultValues: data.other,
     resolver: zodResolver(formSchema)
   });
 
-  const onSubmit = (data) => {
-    updateForm(data, 'other');
-    nextStep();
+  const onSubmit = (others) => {
+    const payload = {
+      ...data.personal_profile,
+      ...data.programs,
+      ...data.canadian_Language_proficiency,
+      ...others
+    };
+    mutate(payload);
+    updateForm(others, 'other');
   };
   return (
     <>
@@ -57,7 +67,7 @@ function Other({ nextStep, data, updateForm }) {
             )}
           />
           <div className='col-span-2 lg:col-span-3 grid place-content-end'>
-            <Button type='submit'>Next Step</Button>
+            <SubmitBtn isLoading={isPending} />
           </div>
         </form>
       </Form>

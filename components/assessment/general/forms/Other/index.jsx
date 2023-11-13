@@ -1,34 +1,44 @@
 // import CountrySelect from '@/components/ui/Selectors/CountrySelect';
+import YesNoRadio from '@/components/ui/Radios/YesNoRadio';
+import AmountSelector from '@/components/ui/Selectors/AmountSelector';
+import CurrencySelector from '@/components/ui/Selectors/CurrencySelector';
+import Selector from '@/components/ui/Selectors/Selector';
 import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
-  FormMessage
+  FormLabel
 } from '@/components/ui/form';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import useSubmitForm from '@/hooks/useSubmitForm';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { formFields, formSchema, list, subFields } from './utils';
-import SkillLevelSelector from '@/components/ui/Selectors/SkillLevelSelector';
-import LanguageSelector from '@/components/ui/Selectors/LanguageSelector';
-import YesNoRadio from '@/components/ui/Radios/YesNoRadio';
-import Selector from '@/components/ui/Selectors/Selector';
-import { Label } from '@/components/ui/label';
-import CurrencySelector from '@/components/ui/Selectors/CurrencySelector';
-import AmountSelector from '@/components/ui/Selectors/AmountSelector';
-import { Textarea } from '@/components/ui/textarea';
+import SubmitBtn from '@/components/ui/SubmitBtn';
 
 function Others({ nextStep, data, updateForm }) {
+  const url = '/general_immigration';
+  const { mutate, isPending } = useSubmitForm(url);
   const form = useForm({
     defaultValues: data.others,
     resolver: zodResolver(formSchema)
   });
 
-  const onSubmit = (data) => {
-    updateForm(data, 'others');
-    nextStep();
+  const onSubmit = (others) => {
+    const payload = {
+      ...data.personal_profile,
+      ...data.education_training,
+      ...data.work_experience,
+      ...data.canadian_Language_proficiency,
+      ...others
+    };
+    console.log(payload);
+    mutate(payload);
+    updateForm(others, 'others');
+    // nextStep();
   };
 
   // Define the form fields to map over them
@@ -110,7 +120,7 @@ function Others({ nextStep, data, updateForm }) {
           )}
         />
         <div className='col-span-5 grid place-content-end'>
-          <Button type='submit'>Next Step</Button>
+          <SubmitBtn isLoading={isPending} />
         </div>
       </form>
     </Form>
