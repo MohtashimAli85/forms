@@ -8,8 +8,8 @@ import {
 } from '@/components/ui/select';
 import { getCountryOptions } from '@/lib/utils';
 
+const countries = getCountryOptions();
 const CountrySelect = ({ field, label }) => {
-  const countries = getCountryOptions();
   return (
     <>
       <FormLabel>{label}</FormLabel>

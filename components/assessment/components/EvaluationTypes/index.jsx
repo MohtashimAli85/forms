@@ -25,12 +25,12 @@ const EvaluationSteps = () => {
   const pathname = usePathname();
   const currentValue = pathname.split('/')[2];
   return (
-    <ul className='flex gap-3 py-4 my-4'>
+    <ul className='flex gap-3 py-4 my-4 overflow-auto px-2'>
       {evalutionTypes.map(({ name, value }) => (
         <li key={value}>
           <Link
             href={value}
-            className={`text-base p-2 outline rounded-md   ${
+            className={`text-base p-2 whitespace-nowrap outline rounded-md   ${
               currentValue === value ? 'text-blue-500 outline-blue-500' : ''
             }`}
           >

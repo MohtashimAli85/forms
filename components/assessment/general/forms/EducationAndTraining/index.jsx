@@ -15,6 +15,7 @@ import { formFields, formSchema, postSchema, subFields } from './utils';
 import SubFields from './SubFields';
 
 export default function EducationAndTraining({ nextStep, data, updateForm }) {
+  console.log({ default: data });
   const { control, getValues, handleSubmit } = useForm({
     defaultValues: {
       post_secondary_education:
@@ -23,16 +24,19 @@ export default function EducationAndTraining({ nextStep, data, updateForm }) {
     resolver: zodResolver(postSchema)
   });
   console.log({ error: control._formState.errors });
-  const value = useWatch({ control, name: 'post_secondary_education' });
-  console.log({ value });
+  const post_secondary_education = useWatch({
+    control,
+    name: 'post_secondary_education'
+  });
   const form = useForm({
     defaultValues: data.education_training,
     resolver: zodResolver(formSchema)
   });
 
   const onSubmit = (data) => {
-    nextStep();
-    updateForm(data, 'education_training');
+    // nextStep();
+    console.log({ data });
+    updateForm({ post_secondary_education, ...data }, 'education_training');
   };
 
   // Define the form fields to map over them
@@ -43,7 +47,11 @@ export default function EducationAndTraining({ nextStep, data, updateForm }) {
   return (
     <Form {...form}>
       <form
-        onSubmit={value ? form.handleSubmit(onSubmit) : handleSubmit(onSubmit)}
+        onSubmit={
+          post_secondary_education
+            ? form.handleSubmit(onSubmit)
+            : handleSubmit(onSubmit)
+        }
         className='space-y-3 '
       >
         {formFields.map(({ name, label, type }) => (
@@ -75,7 +83,9 @@ export default function EducationAndTraining({ nextStep, data, updateForm }) {
             );
           }}
         ></FormField> */}
-        {value && <SubFields form={form} value={value} />}
+        {post_secondary_education && (
+          <SubFields form={form} value={post_secondary_education} />
+        )}
         <div className='col-span-2 grid place-content-end'>
           <Button type='submit'>Next Step</Button>
         </div>

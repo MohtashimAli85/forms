@@ -21,7 +21,7 @@ const ProgramSchema = z.object({
 
 const FormSchema = z.object({
   studied_in_canada: z.boolean(),
-  institute_name: z.string(),
+  institute_name: z.string().min(1, { message: 'Institute name is required.' }),
   canadian_school: z.string().optional(),
   highest_study_canada: z.string(),
   highest_study_level: z.string(),
