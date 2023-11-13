@@ -1,3 +1,6 @@
+import useCountry from '@/hooks/useCountry';
+import React from 'react';
+import { useWatch } from 'react-hook-form';
 import { FormControl, FormLabel } from '@/components/ui/form';
 import {
   Select,
@@ -6,13 +9,12 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import useCountry from '@/hooks/useCountry';
-const CurrencySelector = ({ field, label }) => {
+
+const AmountSelector = ({ field, label, watch }) => {
   const { data, isLoading, isError } = useCountry();
-  const list = data?.map((item) => ({
-    label: `${item.country}(${item.currency})`,
-    value: item.currency
-  }));
+  const currency = useWatch({ name: watch });
+  const list = data?.find((item) => item.currency == currency)?.amounts || [];
+  console.log({ currency, list });
   return (
     <>
       <FormLabel>{label}</FormLabel>
@@ -28,14 +30,14 @@ const CurrencySelector = ({ field, label }) => {
           </SelectTrigger>
         </FormControl>
         <SelectContent className='max-h-36 '>
-          {list?.map((item, index) => {
+          {list?.map((value, index) => {
             return (
               <SelectItem
-                key={item.value}
-                value={String(item.value)}
+                key={value}
+                value={String(value)}
                 className='uppercase'
               >
-                {item.label}
+                {value}
               </SelectItem>
             );
           })}
@@ -45,4 +47,4 @@ const CurrencySelector = ({ field, label }) => {
   );
 };
 
-export default CurrencySelector;
+export default AmountSelector;

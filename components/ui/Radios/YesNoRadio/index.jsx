@@ -2,7 +2,7 @@ import { FormControl, FormItem, FormLabel } from '@/components/ui/form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import React from 'react';
 
-const YesNoRadio = ({ field, label }) => {
+const YesNoRadio = ({ field, label, isNotSure }) => {
   return (
     <>
       <FormLabel>{label}</FormLabel>
@@ -23,6 +23,14 @@ const YesNoRadio = ({ field, label }) => {
           </FormControl>
           <FormLabel className='font-normal'>No</FormLabel>
         </FormItem>
+        {isNotSure && (
+          <FormItem className='flex items-center space-x-3 space-y-0'>
+            <FormControl>
+              <RadioGroupItem value={null} />
+            </FormControl>
+            <FormLabel className='font-normal'>I'm not sure</FormLabel>
+          </FormItem>
+        )}
       </RadioGroup>
     </>
   );

@@ -1,7 +1,8 @@
+import Student from '@/components/assessment/student';
 import React from 'react';
 
 const StudyVisa = () => {
-  return <div>StudyVisa</div>;
+  return <Student />;
 };
 
 export default StudyVisa;

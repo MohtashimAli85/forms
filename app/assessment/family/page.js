@@ -1,7 +1,8 @@
+import Family from '@/components/assessment/family';
 import React from 'react';
 
 const FamilySponsorship = () => {
-  return <div>FamilySponsorship</div>;
+  return <Family />;
 };
 
 export default FamilySponsorship;

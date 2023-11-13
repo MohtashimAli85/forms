@@ -22,14 +22,12 @@ const Selector = ({ field, label, list }) => {
           </SelectTrigger>
         </FormControl>
         <SelectContent className='max-h-36 '>
-          {list.map((value, index) => {
+          {list?.map((_, index) => {
+            const isString = typeof _ === 'string';
+            const value = isString ? _ : _.value;
             return (
-              <SelectItem
-                key={value}
-                value={String(value)}
-                className='uppercase'
-              >
-                {value}
+              <SelectItem key={value} value={value} className='uppercase'>
+                {isString ? value : _.name}
               </SelectItem>
             );
           })}

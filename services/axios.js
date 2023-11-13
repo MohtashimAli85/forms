@@ -7,8 +7,8 @@ const axiosApi = axios.create({
   baseURL: API_URL
 });
 
-export const refreshAccessToken = (refresh_token) =>
-  post('/auth/refresh', { refresh_token });
+// export const refreshAccessToken = (refresh_token) =>
+//   post('/auth/refresh', { refresh_token });
 let abortController = new AbortController();
 // axiosApi.interceptors.request.use(
 //   function (config) {

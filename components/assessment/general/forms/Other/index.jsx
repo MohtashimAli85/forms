@@ -17,6 +17,8 @@ import YesNoRadio from '@/components/ui/Radios/YesNoRadio';
 import Selector from '@/components/ui/Selectors/Selector';
 import { Label } from '@/components/ui/label';
 import CurrencySelector from '@/components/ui/Selectors/CurrencySelector';
+import AmountSelector from '@/components/ui/Selectors/AmountSelector';
+import { Textarea } from '@/components/ui/textarea';
 
 function Others({ nextStep, data, updateForm }) {
   const form = useForm({
@@ -65,27 +67,48 @@ function Others({ nextStep, data, updateForm }) {
           How much money do you have available to you for the purposes of
           settling in Canada?
         </Label>
-        {subFields.map(({ name, label, type }) => (
-          <FormField
-            key={name}
-            control={form.control}
-            name={name}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  {name === 'currency' ? (
-                    <>
-                      <CurrencySelector field={field} label={label} />
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                </FormControl>
-                {/* <FormMessage /> */}
-              </FormItem>
-            )}
-          />
-        ))}
+        <div className='flex gap-3 flex-col sm:flex-row'>
+          {subFields.map(({ name, label, type }) => (
+            <FormField
+              key={name}
+              control={form.control}
+              name={name}
+              render={({ field }) => (
+                <FormItem className='flex-1'>
+                  <FormControl>
+                    {name === 'currency' ? (
+                      <>
+                        <CurrencySelector field={field} label={label} />
+                      </>
+                    ) : (
+                      <>
+                        <AmountSelector
+                          field={field}
+                          label={label}
+                          watch='currency'
+                        />
+                      </>
+                    )}
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          ))}
+        </div>
+        <FormField
+          control={form.control}
+          name={'comments'}
+          render={({ field }) => (
+            <FormItem className='flex-1'>
+              <FormControl>
+                <>
+                  <FormLabel>Questions and comments</FormLabel>
+                  <Textarea placeholder='Comments' {...field} />
+                </>
+              </FormControl>
+            </FormItem>
+          )}
+        />
         <div className='col-span-5 grid place-content-end'>
           <Button type='submit'>Next Step</Button>
         </div>

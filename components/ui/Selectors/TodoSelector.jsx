@@ -6,13 +6,16 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import useCountry from '@/hooks/useCountry';
-const CurrencySelector = ({ field, label }) => {
-  const { data, isLoading, isError } = useCountry();
-  const list = data?.map((item) => ({
-    label: `${item.country}(${item.currency})`,
-    value: item.currency
-  }));
+
+const list = [
+  { name: 'Sponsor foreign relative', value: 'sponsor_foreign_relative' },
+  {
+    name: 'Relative in Canada to sponsor me',
+    value: 'relative_in_canada_sponsor_me'
+  }
+];
+
+const ToDoSelector = ({ field, label }) => {
   return (
     <>
       <FormLabel>{label}</FormLabel>
@@ -28,14 +31,10 @@ const CurrencySelector = ({ field, label }) => {
           </SelectTrigger>
         </FormControl>
         <SelectContent className='max-h-36 '>
-          {list?.map((item, index) => {
+          {list.map(({ name, value }) => {
             return (
-              <SelectItem
-                key={item.value}
-                value={String(item.value)}
-                className='uppercase'
-              >
-                {item.label}
+              <SelectItem key={value} value={value}>
+                {name}
               </SelectItem>
             );
           })}
@@ -45,4 +44,4 @@ const CurrencySelector = ({ field, label }) => {
   );
 };
 
-export default CurrencySelector;
+export default ToDoSelector;
