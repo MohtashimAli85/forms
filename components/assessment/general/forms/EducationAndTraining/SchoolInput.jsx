@@ -5,7 +5,6 @@ import { useWatch } from 'react-hook-form';
 
 const SchoolInput = ({ name, field, label }) => {
   const value = useWatch({ name });
-  console.log({ value, name });
   if (value === 'outside canada') return null;
   return (
     <>

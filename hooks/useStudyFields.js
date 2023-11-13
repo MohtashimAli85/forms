@@ -5,7 +5,8 @@ const useStudyFields = () => {
   return useQuery({
     queryKey: ['study_fields'],
     queryFn: () => get('/study_fields'),
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
+    staleTime: Infinity
   });
 };
 

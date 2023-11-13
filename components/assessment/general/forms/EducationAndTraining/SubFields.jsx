@@ -17,7 +17,7 @@ import StudiedInCanada from './StudiedInCanada';
 const SubFields = ({ form, value }) => {
   return (
     <div className={!value ? 'hidden' : 'space-y-3 '}>
-      {subFields.map(({ name, label, type, condition }) => (
+      {subFields.map(({ name, label, type }) => (
         <FormField
           key={name}
           control={form.control}

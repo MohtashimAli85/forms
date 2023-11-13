@@ -8,35 +8,39 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel
+  FormLabel,
+  FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useFieldArray } from 'react-hook-form';
-import SchoolInput from './SchoolInput';
-import { programsList } from './utils'; // Adjust the import paths based on your project structure
+import { workExperienceList } from './utils'; // Adjust the import paths based on your project structure
+import EmploymentSelector from '@/components/ui/Selectors/EmploymentSelector';
+import YearSelector from '@/components/ui/Selectors/YearSelector';
+import DurationSelector from '@/components/ui/Selectors/DurationSelector';
 const Selectors = {
-  program_type: EducationSelector,
-  field: StudyFieldsSelector,
-  location: LocationSelector
+  location: LocationSelector,
+  employment_type: EmploymentSelector,
+  job_start_year: YearSelector,
+  job_end_year: YearSelector,
+  job_duration: DurationSelector
 };
 const Selector = ({ name, field, label }) => {
   const Selector = Selectors[name];
   if (Selector) return <Selector field={field} />;
   return <></>;
 };
-const ProgramList = ({ control }) => {
+const SubFields = ({ control }) => {
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'programs_list'
+    name: 'work_experiences'
   });
-  const errors = control._formState.errors;
   return (
     <>
       <div className='p-2 m-2 space-y-3 [&+p]:'>
         <div className='space-y-3'>
           {fields.map(({ id, ...values }, index) => (
             <div key={id} className='space-y-2'>
-              {programsList.map(({ name, label, type }) => (
+              {workExperienceList.map(({ name, label, type }) => (
                 <FormField
                   key={name}
                   render={({ field }) => {
@@ -44,12 +48,7 @@ const ProgramList = ({ control }) => {
                       <FormItem>
                         <FormControl>
                           <>
-                            {type == 'radio' ? (
-                              <>
-                                <FormLabel>{label}</FormLabel>
-                                <YesNoRadio field={field} />
-                              </>
-                            ) : type == 'select' ? (
+                            {type == 'select' ? (
                               <>
                                 <FormLabel>{label}</FormLabel>
                                 <Selector
@@ -58,18 +57,9 @@ const ProgramList = ({ control }) => {
                                   label={label}
                                 />
                               </>
-                            ) : name == 'school_in_canada' ? (
-                              <>
-                                <SchoolInput
-                                  label={label}
-                                  name={`programs_list.${index}.location`}
-                                  field={field}
-                                />
-                              </>
                             ) : (
                               <>
                                 <FormLabel>{label}</FormLabel>
-
                                 <Input type={type} {...field} />
                               </>
                             )}
@@ -78,7 +68,7 @@ const ProgramList = ({ control }) => {
                       </FormItem>
                     );
                   }}
-                  name={`programs_list.${index}.${name}`}
+                  name={`work_experiences.${index}.${name}`}
                   control={control}
                 />
               ))}
@@ -115,4 +105,4 @@ const ProgramList = ({ control }) => {
   );
 };
 
-export default ProgramList;
+export default SubFields;

@@ -1,8 +1,8 @@
 import * as z from 'zod';
 const ProgramSchema = z.object({
-  program_type: z.string().min(1, { message: 'First name is required.' }),
-  field: z.string().min(1, { message: 'First name is required.' }),
-  location: z.string().min(1, { message: 'First name is required.' }),
+  program_type: z.string().min(1, { message: 'Program Type is required.' }),
+  field: z.string().min(1, { message: 'Field is required.' }),
+  location: z.string().min(1, { message: 'Location is required.' }),
   school_in_canada: z
     .string()
     .optional()
@@ -13,7 +13,7 @@ const ProgramSchema = z.object({
       },
       {
         path: ['school_in_canada'],
-        message: 'required'
+        message: 'Required'
       }
     ),
   program_completed: z.boolean()
@@ -53,12 +53,6 @@ export const subFields = [
     label: 'Highest Study Level',
     type: 'select'
   }
-  // {
-  //   name: 'programs_list',
-  //   label: 'Programs List',
-  //   type: 'array'
-  //   // fields:
-  // }
 ];
 export const programsList = [
   { name: 'program_type', label: 'Program Type', type: 'select' },

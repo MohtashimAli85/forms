@@ -1,7 +1,7 @@
 import YesNoRadio from '@/components/ui/Radios/YesNoRadio';
 import AgeSelector from '@/components/ui/Selectors/AgeSelector';
 import ChildrenSelector from '@/components/ui/Selectors/ChildrenSelector';
-import CountrySelect from '@/components/ui/Selectors/CountrySelect';
+// import CountrySelect from '@/components/ui/Selectors/CountrySelect';
 import MaritalSelector from '@/components/ui/Selectors/MaritalSelector';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,6 +17,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { formFields, formSchema } from './utils';
 import { memo } from 'react';
+import dynamic from 'next/dynamic';
+const CountrySelect = dynamic(
+  () => import('@/components/ui/Selectors/CountrySelect'),
+  { ssr: false }
+);
 const Selectors = {
   nationality: CountrySelect,
   current_country: CountrySelect,

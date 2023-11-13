@@ -24,6 +24,7 @@ const General = () => {
       current_country: 'PK'
     },
     education_training: {
+      post_secondary_education: false,
       studied_in_canada: undefined,
       institute_name: '',
       highest_study_canada: '',
@@ -36,6 +37,34 @@ const General = () => {
           program_completed: null
         }
       ]
+    },
+    work_experience: {
+      paid_work_experience: false,
+      work_experiences: [{}]
+    },
+    canadian_Language_proficiency: {
+      first_language: 'English',
+      first_language_read: 'beginner',
+      first_language_write: 'beginner',
+      first_language_speak: 'beginner',
+      first_language_listen: 'intermediate',
+      second_language: 'English',
+      second_language_read: 'beginner',
+      second_language_write: 'beginner',
+      second_language_speak: 'beginner',
+      second_language_listen: 'beginner'
+    },
+    others: {
+      skills_outside_canada: '1 or 2 years',
+      skills_inside_canada: '1 year',
+      certificate_qualification: true,
+      certificate_nomination: true,
+      valid_job: true,
+      senior_managerial_role: true,
+      siblings: true,
+      relative_in_canada: true,
+      criminal_record: true,
+      bad_medical_condition: true
     }
   });
   const [activeAccordion, setActiveAccordion] = useState(
@@ -50,10 +79,17 @@ const General = () => {
       return temp;
     });
   }, []);
-
+  const closeActiveAccordions = useCallback((index) => {
+    setActiveAccordion((prev) => {
+      const temp = [...prev];
+      console.log({ temp });
+      return temp.map((value, i) => (i === index ? value : false));
+    });
+  });
   const updateForm = useCallback((data, key) => {
     setFormData((prev) => ({ ...prev, [key]: data }));
   }, []);
+  console.log({ formData });
   return (
     <>
       <Accordion type='single' className={''} collapsible value={'true'}>
@@ -66,7 +102,8 @@ const General = () => {
             <AccordionTrigger
               onClick={() => {
                 updateActiveAccordion(index);
-                updateActiveAccordion(index + 1);
+                closeActiveAccordions(index);
+                // updateActiveAccordion(index + 1);
               }}
             >
               {name}
