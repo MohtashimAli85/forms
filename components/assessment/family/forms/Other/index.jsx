@@ -27,7 +27,7 @@ function Other({ nextStep, data, updateForm }) {
     const payload = {
       ...data.personal_profile,
       ...data.relative_information,
-      others
+      ...others
     };
     console.log(payload);
     mutate(payload);
