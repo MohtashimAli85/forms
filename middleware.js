@@ -12,6 +12,7 @@ export function middleware(request) {
     }
   };
   const { pathname } = request.nextUrl;
+  if(pathname.includes('register')) return
   try {
     if (typeof JSON.parse(userToken) === 'object' && userToken !== 'null') {
       if (pathname === '/auth/login') {
