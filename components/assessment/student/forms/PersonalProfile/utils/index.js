@@ -32,7 +32,7 @@ export const formSchema = schema
       message: 'Program start date is required.'
     }
   )
-  .refine((data) => !data.letter_of_admission || !!data.previously_refused, {
+  .refine((data) => !data.letter_of_admission || data.previously_refused!==undefined, {
     path: ['previously_refused'],
     message: 'Previous refusal information is required.'
   })
