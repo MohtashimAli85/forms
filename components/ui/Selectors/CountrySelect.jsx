@@ -25,7 +25,7 @@ const CountrySelect = ({ field, label }) => {
         </FormControl>
         <SelectContent className='max-h-36 '>
           {countries.map((country) => (
-            <SelectItem key={country.value} value={country.value}>
+            <SelectItem key={country.value} value={country.label}>
               {country.label}
             </SelectItem>
           ))}
