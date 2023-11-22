@@ -5,7 +5,7 @@ import clsx from 'clsx';
 
 const SubmitBtn = ({ isLoading, className }) => {
   return (
-    <Button type='submit' className={clsx('gap-2   min-w-[100px]', className)}>
+    <Button type='submit' disabled={isLoading} className={clsx('gap-2   min-w-[100px]', className)}>
       {!isLoading ? 'Submit' : <Loader />}
     </Button>
   );
