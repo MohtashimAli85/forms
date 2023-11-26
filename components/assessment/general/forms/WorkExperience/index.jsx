@@ -42,6 +42,7 @@ export default function EducationAndTraining({ nextStep, data, updateForm }) {
   return (
     <Form {...finalForm}>
       <form
+        aria-disabled={!!data?.status ? 'true' : 'false'}
         onSubmit={
           paid_work_experience
             ? form.handleSubmit(onSubmit)

@@ -46,6 +46,7 @@ function Others({ nextStep, data, updateForm }) {
   return (
     <Form {...form}>
       <form
+        aria-disabled={!!data?.status ? 'true' : 'false'}
         onSubmit={form.handleSubmit(onSubmit)}
         className={'space-y-3  animate-accordion-down'}
       >

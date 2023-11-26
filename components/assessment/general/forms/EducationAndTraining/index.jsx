@@ -46,6 +46,8 @@ export default function EducationAndTraining({ nextStep, data, updateForm }) {
             ? form.handleSubmit(onSubmit)
             : handleSubmit(onSubmit)
         }
+        aria-disabled={!!data?.status ? 'true' : 'false'}
+
         className='space-y-3 '
       >
         {formFields.map(({ name, label, type }) => (

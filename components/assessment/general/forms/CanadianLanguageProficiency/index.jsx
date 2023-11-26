@@ -35,6 +35,7 @@ function CanadianLanguageProficiency({ nextStep, data, updateForm }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
+        aria-disabled={!!data?.status ? 'true' : 'false'}
         className={
           'space-y-3 md:space-y-0 md:grid md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-3 animate-accordion-down'
         }

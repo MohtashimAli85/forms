@@ -56,6 +56,7 @@ function ProfileForm({ nextStep, data, updateForm }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
+        aria-disabled={!!data?.status ? 'true' : 'false'}
         className={
           'space-y-3 lg:space-y-0 lg:grid  lg:grid-cols-3 gap-3 animate-accordion-down'
         }

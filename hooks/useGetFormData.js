@@ -1,3 +1,4 @@
+'use client'
 import { get } from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
 import { getCookie } from 'cookies-next';
@@ -8,7 +9,8 @@ const getUser = () => {
   try {
     return JSON.parse(getCookie('user'));
   } catch (err) {
-    redirect('/auth/login');
+    console.error({err})
+    // redirect('/auth/login');
     return null;
   }
 };
@@ -18,7 +20,8 @@ const useGetFormData = (url, callback) => {
     queryKey: [`data-${url}`],
     queryFn: () => get(`${url}?user_id=${user?.id}`),
     refetchOnWindowFocus: false,
-    retry: false
+    retry: false,
+    enabled:!!user?.id
   });
   const { data, isSuccess, isError, isLoading, isFetching } = query;
   useEffect(() => {
