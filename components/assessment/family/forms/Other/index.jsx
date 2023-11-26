@@ -37,7 +37,11 @@ function Other({ nextStep, data, updateForm }) {
     <>
       <p className='text-base xl:text-xl my-2'></p>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className={'space-y-3 '}>
+        <form
+          aria-disabled={!!data?.status ? 'true' : 'false'}
+          onSubmit={form.handleSubmit(onSubmit)}
+          className={'space-y-3 '}
+        >
           {formFields.map(({ name, label, type }) => (
             <FormField
               key={name}
