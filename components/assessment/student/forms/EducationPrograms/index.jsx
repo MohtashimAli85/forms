@@ -1,5 +1,6 @@
 // import CountrySelect from '@/components/ui/Selectors/CountrySelect';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   Form,
   FormControl,
@@ -7,12 +8,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input'; // Assumed imports
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { formFields, formSchema } from './utils';
-import { Checkbox } from '@/components/ui/checkbox';
+} from '@/components/ui/form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { formFields, formSchema } from './utils'
 
 function EducationPrograms({ nextStep, data, updateForm }) {
   const form = useForm({
@@ -33,6 +32,7 @@ function EducationPrograms({ nextStep, data, updateForm }) {
         <FormMessage className='my-3'>{error}</FormMessage>
 
         <form
+          aria-disabled={!!data?.status ? 'true' : 'false'}
           onSubmit={form.handleSubmit(onSubmit)}
           className={
             'space-y-3 lg:space-y-0 lg:grid  lg:grid-cols-3 gap-3 animate-accordion-down'

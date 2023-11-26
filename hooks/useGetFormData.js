@@ -17,25 +17,33 @@ const useGetFormData = (url, callback) => {
   const query = useQuery({
     queryKey: [`data-${url}`],
     queryFn: () => get(`${url}?user_id=${user?.id}`),
-    refetchOnWindowFocus:false
+    refetchOnWindowFocus: false,
+    retry: false
   });
-  const { data, isSuccess, isError, isLoading }=query
+  const { data, isSuccess, isError, isLoading, isFetching } = query;
   useEffect(() => {
     let isMounted = true;
     if (isMounted) {
       if (isSuccess || typeof data === 'object') {
         console.log({ data });
-        if (typeof data === 'object') callback({ ...data });else callback({});
-      }
-      if (isError) {
-        toast('Error');
-        return
+        if (typeof data === 'object') callback({ ...data });
+        else callback({});
       }
     }
     return () => {
       isMounted = false;
     };
-  }, [isSuccess, isError, data]);
+  }, [isSuccess, data]);
+  useEffect(() => {
+    let isMounted = true;
+    if (isError && isMounted && !isFetching) {
+      toast('Error');
+      return;
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [isError, isFetching]);
   return query;
 };
 

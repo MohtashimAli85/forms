@@ -16,7 +16,7 @@ const Business = () => {
   const { currentStep, nextStep,goToStep } = useFormStep(0);
 
   const [formData, setFormData] = useState(null);
-  const { isLoading } = useGetFormData('/business_immigration', setFormData);
+  const { isLoading,isError } = useGetFormData('/business_immigration', setFormData);
   const [activeAccordion, setActiveAccordion] = useState(
     Array(5)
       .fill(false)
@@ -45,6 +45,8 @@ const Business = () => {
       goToStep(BusinessForm.length-1)
     }
   },[status])
+  if(isError) return <p>Something went wrong. Please try later or ask for support.</p>
+
   return (
     <>
       {isLoading||formData===null? (

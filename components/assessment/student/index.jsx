@@ -1,5 +1,5 @@
 'use client';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Accordion,
   AccordionContent,
@@ -8,47 +8,15 @@ import {
 } from '@/components/ui/accordion';
 import StudentForm from './forms';
 import useFormStep from '@/hooks/useFormStep';
+import useGetFormData from '@/hooks/useGetFormData'
+import { Badge } from '@/components/ui/badge'
+import Loader from '@/components/ui/loader'
 
 const Student = () => {
   const { currentStep, nextStep, goToStep } = useFormStep(0);
-  const [formData, setFormData] = useState({
-    personal_profile: {
-      first_name: 'Mohtashim',
-      last_name: 'Ali',
-      email_address: 'mohtashima85@gmail.com',
-      nationality: 'PK',
-      age: '18',
-      telephone: '03474692536',
-      marital_status: 'married_commonlaw',
-      children_under_22: false,
-      current_country: 'PK'
-    },
+  const [formData, setFormData] = useState(null);
+  const { isLoading,isError } = useGetFormData('/study_visa', setFormData);
 
-    canadian_Language_proficiency: {
-      first_language: 'English',
-      first_language_read: 'beginner',
-      first_language_write: 'beginner',
-      first_language_speak: 'beginner',
-      first_language_listen: 'intermediate',
-      second_language: 'English',
-      second_language_read: 'beginner',
-      second_language_write: 'beginner',
-      second_language_speak: 'beginner',
-      second_language_listen: 'beginner'
-    },
-    others: {
-      skills_outside_canada: '1 or 2 years',
-      skills_inside_canada: '1 year',
-      certificate_qualification: true,
-      certificate_nomination: true,
-      valid_job: true,
-      senior_managerial_role: true,
-      siblings: true,
-      relative_in_canada: true,
-      criminal_record: true,
-      bad_medical_condition: true
-    }
-  });
   const [activeAccordion, setActiveAccordion] = useState(
     Array(5)
       .fill(false)
@@ -71,40 +39,56 @@ const Student = () => {
     setFormData((prev) => ({ ...prev, [key]: data }));
   }, []);
   console.log({ formData });
+  const status = formData?.status;
+  useEffect(() => {
+    if (status) {
+      goToStep(StudentForm.length - 1);
+    }
+  }, [status]);
+  if(isError) return <p>Something went wrong. Please try later or ask for support.</p>
   return (
     <>
-      <Accordion type='single' className={''} collapsible value={'true'}>
-        {StudentForm.map(({ name, Form }, index) => (
-          <AccordionItem
-            value={String(index <= currentStep && activeAccordion[index])}
-            key={name}
-            disabled={!(index === currentStep) && index > currentStep}
-          >
-            <AccordionTrigger
-              onClick={() => {
-                updateActiveAccordion(index);
-                closeActiveAccordions(index);
-                // updateActiveAccordion(index + 1);
-              }}
-            >
-              {name}
-            </AccordionTrigger>
-            <AccordionContent>
-              <Form
-                nextStep={() => {
-                  if (currentStep <= index) {
-                    nextStep();
-                  }
-                  updateActiveAccordion(index);
-                  updateActiveAccordion(index + 1);
-                }}
-                data={formData}
-                updateForm={updateForm}
-              />
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
+      {isLoading || formData === null ? (
+        <Loader />
+      ) : (
+        <>
+          {formData?.status && (
+            <Badge className={'capitalize'}>{formData?.status}</Badge>
+          )}
+          <Accordion type='single' className={''} collapsible value={'true'}>
+            {StudentForm.map(({ name, Form }, index) => (
+              <AccordionItem
+                value={String(index <= currentStep && activeAccordion[index])}
+                key={name}
+                disabled={!(index === currentStep) && index > currentStep}
+              >
+                <AccordionTrigger
+                  onClick={() => {
+                    updateActiveAccordion(index);
+                    closeActiveAccordions(index);
+                    // updateActiveAccordion(index + 1);
+                  }}
+                >
+                  {name}
+                </AccordionTrigger>
+                <AccordionContent>
+                  <Form
+                    nextStep={() => {
+                      if (currentStep <= index) {
+                        nextStep();
+                      }
+                      updateActiveAccordion(index);
+                      updateActiveAccordion(index + 1);
+                    }}
+                    data={formData}
+                    updateForm={updateForm}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </>
+      )}
     </>
   );
 };

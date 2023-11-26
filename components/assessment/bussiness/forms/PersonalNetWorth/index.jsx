@@ -31,9 +31,10 @@ function ProfileForm({ nextStep, data, updateForm }) {
         businesses that you own.
       </p>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className={'space-y-3 '} 
-        aria-disabled={!!data?.status ? 'true' : 'false'}
-        
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className={'space-y-3 '}
+          aria-disabled={!!data?.status ? 'true' : 'false'}
         >
           {formFields.map(({ name, label, type }) => (
             <FormField

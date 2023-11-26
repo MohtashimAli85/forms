@@ -24,9 +24,12 @@ function Other({ nextStep, data, updateForm }) {
   });
 
   const onSubmit = (others) => {
+    const available_programs = Object.keys(data)
+      .filter((key) => data[key] === true)
+      .join(', ');
     const payload = {
       ...data.personal_profile,
-      ...data.programs,
+      available_programs,
       ...data.canadian_Language_proficiency,
       ...others
     };
@@ -37,7 +40,11 @@ function Other({ nextStep, data, updateForm }) {
     <>
       <p className='text-base xl:text-xl my-2'></p>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className={'space-y-3 '}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className={'space-y-3 '}
+          aria-disabled={!!data?.status ? 'true' : 'false'}
+        >
           {formFields.map(({ name, label, type }) => (
             <FormField
               key={name}
