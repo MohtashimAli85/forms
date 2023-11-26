@@ -33,6 +33,7 @@ const Selector = ({ name, field, label }) => {
   return <></>;
 };
 function ProfileForm({ nextStep, data, updateForm }) {
+  console.log({ personal: data });
   const form = useForm({
     defaultValues: data.personal_profile,
     resolver: zodResolver(formSchema)
@@ -45,6 +46,7 @@ function ProfileForm({ nextStep, data, updateForm }) {
   return (
     <Form {...form}>
       <form
+        aria-disabled={!!data?.status ? 'true' : 'false'}
         onSubmit={form.handleSubmit(onSubmit)}
         className={
           'space-y-3 lg:space-y-0 lg:grid  lg:grid-cols-3 gap-3 animate-accordion-down'

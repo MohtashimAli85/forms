@@ -1,3 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+form[aria-disabled='true']{
+    @apply pointer-events-none opacity-60
+}

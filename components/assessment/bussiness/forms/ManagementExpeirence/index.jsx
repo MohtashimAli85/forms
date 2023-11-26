@@ -32,7 +32,11 @@ function ManagementExperience({ nextStep, data, updateForm }) {
         professional practice, or farming.
       </p>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className={'space-y-3 '}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className={'space-y-3 '}
+          aria-disabled={!!data?.status ? 'true' : 'false'}
+        >
           {formFields.map(({ name, label, type }) => (
             <FormField
               key={name}

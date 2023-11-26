@@ -1,5 +1,5 @@
 'use client';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Accordion,
   AccordionContent,
@@ -8,23 +8,15 @@ import {
 } from '@/components/ui/accordion';
 import BusinessForm from './forms';
 import useFormStep from '@/hooks/useFormStep';
+import useGetFormData from '@/hooks/useGetFormData';
+import Loader from '@/components/ui/loader';
+import { Badge } from '@/components/ui/badge'
 
 const Business = () => {
-  const { currentStep, nextStep, goToStep } = useFormStep(0);
-  const [formData, setFormData] = useState({
-    personal_profile: {
-      first_name: 'Mohtashim',
-      last_name: 'Ali',
-      email_address: 'mohtashima85@gmail.com',
-      nationality: 'PK',
-      telephone: '03474692536',
-      current_country: 'PK'
-    },
-    personal_net_worth: {
-      net_worth: 'more than 1999',
-      currency: 'PKR'
-    }
-  });
+  const { currentStep, nextStep,goToStep } = useFormStep(0);
+
+  const [formData, setFormData] = useState(null);
+  const { isLoading } = useGetFormData('/business_immigration', setFormData);
   const [activeAccordion, setActiveAccordion] = useState(
     Array(5)
       .fill(false)
@@ -47,39 +39,52 @@ const Business = () => {
     setFormData((prev) => ({ ...prev, [key]: data }));
   }, []);
   console.log({ formData });
+  const status=formData?.status
+  useEffect(()=>{
+    if(status){
+      goToStep(BusinessForm.length-1)
+    }
+  },[status])
   return (
     <>
-      <Accordion type='single' className={''} collapsible value={'true'}>
-        {BusinessForm.map(({ name, Form }, index) => (
-          <AccordionItem
-            value={String(index <= currentStep && activeAccordion[index])}
-            key={name}
-            disabled={!(index === currentStep) && index > currentStep}
-          >
-            <AccordionTrigger
-              onClick={() => {
-                updateActiveAccordion(index);
-                closeActiveAccordions(index);
-              }}
+      {isLoading||formData===null? (
+        <Loader />
+      ) : (
+        <>
+        {formData?.status&&<Badge className={'capitalize'}>{formData?.status}</Badge>}
+        <Accordion type='single' className={''} collapsible value={'true'} >
+          {BusinessForm.map(({ name, Form }, index) => (
+            <AccordionItem
+              value={String(index <= currentStep && activeAccordion[index])}
+              key={name}
+              disabled={!(index === currentStep) && index > currentStep}
             >
-              {name}
-            </AccordionTrigger>
-            <AccordionContent>
-              <Form
-                nextStep={() => {
-                  if (currentStep <= index) {
-                    nextStep();
-                  }
+              <AccordionTrigger
+                onClick={() => {
                   updateActiveAccordion(index);
-                  updateActiveAccordion(index + 1);
+                  closeActiveAccordions(index);
                 }}
-                data={formData}
-                updateForm={updateForm}
-              />
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
+              >
+                {name}
+              </AccordionTrigger>
+              <AccordionContent>
+                <Form
+                  nextStep={() => {
+                    if (currentStep <= index) {
+                      nextStep();
+                    }
+                    updateActiveAccordion(index);
+                    updateActiveAccordion(index + 1);
+                  }}
+                  data={formData}
+                  updateForm={updateForm}
+                />
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+        </>
+      )}
     </>
   );
 };
